@@ -4,7 +4,7 @@ import os
 from django.conf import settings
 from celery import shared_task
 
-from celery.decorators import task
+from celery.decorators import task, periodic_task
 from celery.schedules import crontab
 
 @periodic_task(
@@ -12,8 +12,8 @@ from celery.schedules import crontab
     name="add",
     ignore_result=True
 )
-def add(x, y):
-	return x + y
+def add():
+	return 5 + 5
 
 @shared_task
 def mul(x, y):
