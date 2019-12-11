@@ -6,6 +6,7 @@ from celery import shared_task
 
 from celery.decorators import task, periodic_task
 from celery.schedules import crontab
+from django.utils.crypto import get_random_string
 
 @periodic_task(
     run_every=(crontab(minute="*")),
