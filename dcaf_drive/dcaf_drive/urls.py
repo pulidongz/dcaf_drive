@@ -28,5 +28,6 @@ urlpatterns = [
     path('', admin.site.urls),
     #url(r'^main/', include('django_sb_admin.urls')),
     url(r'^filer/', include('filer.urls')),
+    url(r'^', include('filer.server.urls')),
     url(r'^accounts/login/$', auth_views.LoginView.as_view(template_name = 'django_sb_admin/examples/login.html'), name="login"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
