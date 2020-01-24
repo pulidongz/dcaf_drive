@@ -1,4 +1,14 @@
 *.pyc
 *.pid
+*.dat
+*.tiff
+*.dbf
+*.prj
+*.sbn
+*.sbx
+*.shp
+*.shx
+*.csv
+*.png
 /env
 /env3.5
