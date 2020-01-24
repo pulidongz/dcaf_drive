@@ -21,7 +21,6 @@ logger = get_task_logger(__name__)
 def mul(x, y):
 	return x * y
 
-
 @shared_task
 def xsum(numbers):
 	return sum(numbers)
