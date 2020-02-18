@@ -1,54 +1,18 @@
 from django.contrib.auth.models import User
-from landsat.google_download import GoogleDownload
+from django.utils.crypto import get_random_string
 from django.conf import settings
 from filer.models import File, Folder, Image
 import sys, requests, os
 
 # SAMPLE / TEST CODES
 
-
-def fileProp():
-	for f in File.objects.filter(is_public=True):
-		sys.stdout.write(u'moving %s to public storage... ' % f.id)
-		# f.is_public = False
-		f.delete()
-		sys.stdout.write(u'done\n')
-
-# Upload processed data to DCAF drive for public access.
-# Location of source directory is 'output'.
-def uploadFile():
-	LOGIN_URL = 'http://localhost:8000/login/?next=/'
-	ADD_URL = 'http://localhost:8000/filer/clipboard/operations/upload/no_folder/'
-	UN = 'dcafadmin'
-	PWD = 'admin'
-
-	session_requests = requests.session()
-	result 			 = session_requests.get(LOGIN_URL)
-	token 			 = result.cookies['csrftoken']
-	login_request	 = session_requests.post(
-							LOGIN_URL,
-							data={
-								'username':UN,
-								'password':PWD,
-								'csrfmiddlewaretoken':token,
-								'next':'/'
-							})
-
-	for subdir, dirs, files in os.walk(settings.DATA_DIR+'/output'):
-		for filename in files:
-			filepath = subdir + os.sep + filename
-
-			# Change ".txt" to file extension that will be used.
-			if filepath.endswith(".txt"):
-				f = {'file': open(filepath, 'rb')}
-				upload_request = requests.post(url=ADD_URL, files=f, cookies=login_request.cookies)
-				print(upload_request.text)
-
-
-# Function for download landsat data
-def DownloadLandsat():
-	g = GoogleDownload(start='2019-11-01', end='2019-11-01', satellite=8, path='116', row='50', output_path=settings.DATA_DIR+'/landsat')
-	g.download()
+# Text file creation for testing
+def MakeTextFile():
+	filename = get_random_string(length=10)
+	file_zip = open(settings.DATA_DIR+'/output/'+filename+'.txt', "w+")
+	for i in range(10):
+		file_zip.write("This is line %d\r\n" % (i+1))
+	file_zip.close()
 
 # File creation for testing
 def CreateFile():

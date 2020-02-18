@@ -1,11 +1,14 @@
 from __future__ import absolute_import, unicode_literals
 from django.conf import settings
-from .scripts import *
 
 from celery import shared_task
 from celery.decorators import task, periodic_task
 from celery.schedules import crontab
 from celery.utils.log import get_task_logger
+
+# Import file containing scripts to be automated:
+from .scripts import *
+from .tests import *
 
 logger = get_task_logger(__name__)
 
@@ -29,28 +32,22 @@ logger = get_task_logger(__name__)
 #range - run every hour from midnight to 5AM
 #0 0-5 * * * echo...
 
+# @shared_task
+# def mul(x, y):
+# 	return x * y
 
-# @periodic_task(
-#     run_every=(crontab(minute="*")),
-#     name="add",
-#     ignore_result=True
-# )
-# def add():
-# 	return 5 + 5
-
-@shared_task
-def mul(x, y):
-	return x * y
-
-@shared_task
-def xsum(numbers):
-	return sum(numbers)
+# @shared_task
+# def xsum(numbers):
+# 	return sum(numbers)
 
 @periodic_task(
 	run_every=(crontab(minute="*")),
     name="create_file",
     ignore_result=True
 )
+# Insert call to funtion here!
 def create_file():
-	CreateFile()
-	logger.info("Created tiff file.")
+	MakeTextFile()
+	logger.info("Created test files")
+	uploadFile()
+	logger.info("Uploaded files to drive")
