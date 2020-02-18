@@ -2,4 +2,3 @@ Django==2.2.10
 django-filer
 celery
 redis
-Landsat578
